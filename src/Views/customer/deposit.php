@@ -51,18 +51,18 @@
                   <div class="flex space-x-4">
                     <!-- Current: "bg-emerald-700 text-white", Default: "text-white hover:bg-emerald-500 hover:bg-opacity-75" -->
                     <a
-                      href="./dashboard.html"
+                      href="transactions"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       aria-current="page"
                       >Dashboard</a
                     >
                     <a
-                      href="./deposit.html"
+                      href="deposit"
                       class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
                       >Deposit</a
                     >
                     <a
-                      href="./withdraw.html"
+                      href="withdraw"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Withdraw</a
                     >
@@ -172,26 +172,26 @@
             id="mobile-menu">
             <div class="space-y-1 pt-2 pb-3">
               <a
-                href="./dashboard.html"
+                href="transactions"
                 class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 aria-current="page"
                 >Dashboard</a
               >
 
               <a
-                href="./deposit.html"
+                href="deposit"
                 class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
                 >Deposit</a
               >
 
               <a
-                href="./withdraw.html"
+                href="withdraw"
                 class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Withdraw</a
               >
 
               <a
-                href="./transfer.html"
+                href="transfer"
                 class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Transfer</a
               >
@@ -268,7 +268,7 @@
                 </dt>
                 <dd
                   class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-                  $10,115,091.00
+                  $<?= number_format(htmlspecialchars($balance->getBalance()),2,'.',',') ?>
                 </dd>
               </div>
             </dl>

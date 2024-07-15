@@ -21,10 +21,13 @@ $router->add('logout', 'GET', [AuthController::class, 'logout']);
 
 // Customer routes
 $router->add('customer/transactions', 'GET', [CustomerController::class, 'transactions']);
+$router->add('customer/deposit', 'GET', [CustomerController::class, 'showDeposit']);
 $router->add('customer/deposit', 'POST', [CustomerController::class, 'deposit']);
+$router->add('customer/withdraw', 'GET', [CustomerController::class, 'showWithdraw']);
 $router->add('customer/withdraw', 'POST', [CustomerController::class, 'withdraw']);
+$router->add('customer/transfer', 'GET', [CustomerController::class, 'showTransfer']);
 $router->add('customer/transfer', 'POST', [CustomerController::class, 'transfer']);
-$router->add('customer/balance', 'GET', [CustomerController::class, 'balance']);
+// $router->add('customer/balance', 'GET', [CustomerController::class, 'balance']);
 
 // Admin routes
 $router->add('admin/transactions', 'GET', [AdminController::class, 'transactions']);

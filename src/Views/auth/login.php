@@ -1,6 +1,6 @@
 <?php
 $error_user_exist = $_SESSION['user-exist'];
-
+$error_user = $_SESSION['user-error'];
 
 ?>
 <!DOCTYPE html>
@@ -36,9 +36,9 @@ $error_user_exist = $_SESSION['user-exist'];
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
         <div class="px-6 py-12 bg-white shadow sm:rounded-lg sm:px-12">
-          <?php if (!empty($error_user_exist)): ?>
+          <?php if (!empty($error_user_exist)|| !empty($error_user)): ?>
             <div class="mb-4 text-center text-green-600">
-                <?= htmlspecialchars($error_user_exist) ?>
+                <?= htmlspecialchars($error_user) ?>
             </div>
           <?php endif; ?>
           <form class="space-y-6" action="login" method="POST">
