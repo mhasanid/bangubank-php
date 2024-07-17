@@ -1,3 +1,6 @@
+<?php
+use App\Utils\Utility;
+?>
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -77,16 +80,16 @@
                       aria-expanded="false"
                       aria-haspopup="true">
                       <span class="sr-only">Open user menu</span>
-                      <span
+                      <!-- <span
                         class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-sky-100">
                         <span class="font-medium leading-none text-sky-700">
                           <?= htmlspecialchars(substr($loggedinUser->name, 0, 2)) ?>
                         </span>
-                      </span>
-                      <!-- <img
+                      </span> -->
+                      <img
                         class="w-10 h-10 rounded-full"
-                        src="https://avatars.githubusercontent.com/u/831997"
-                        alt="Ahmed Shamim Hasan Shaon" /> -->
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
                     </button>
                   </div>
 
@@ -180,9 +183,13 @@
                     alt="" /> -->
                   <span
                     class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-sky-100">
-                    <span class="font-medium leading-none text-sky-700">
+                    <!-- <span class="font-medium leading-none text-sky-700">
                       <?= htmlspecialchars(substr($loggedinUser->name, 0, 2)) ?>
-                    </span>
+                    </span> -->
+                    <img
+                        class="w-10 h-10 rounded-full"
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
                   </span>
                 </div>
                 <div class="ml-3">

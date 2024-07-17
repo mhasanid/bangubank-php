@@ -1,3 +1,7 @@
+<?php
+  use App\Utils\Utility;
+?>
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -88,15 +92,15 @@
                       aria-expanded="false"
                       aria-haspopup="true">
                       <span class="sr-only">Open user menu</span>
-                      <!-- <img
-                        class="h-10 w-10 rounded-full"
-                        src="https://avatars.githubusercontent.com/u/831997"
-                        alt="Ahmed Shamim Hasan Shaon" /> -->
-                      <span
+                      <img
+                        class="w-10 h-10 rounded-full"
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
+                      <!-- <span
                         class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
                         <span class="font-medium leading-none text-emerald-700"
                           >AS</span
-                        >
+                        > -->
                       </span>
                     </button>
                   </div>
@@ -205,17 +209,21 @@
                     alt="" /> -->
                   <span
                     class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
-                    <span class="font-medium leading-none text-emerald-700"
+                    <!-- <span class="font-medium leading-none text-emerald-700"
                       >AS</span
-                    >
+                    > -->
+                    <img
+                        class="w-10 h-10 rounded-full"
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
                   </span>
                 </div>
                 <div class="ml-3">
                   <div class="text-base font-medium text-white">
-                    Ahmed Shamim
+                    <?=$loggedinUser->name;?>
                   </div>
                   <div class="text-sm font-medium text-emerald-300">
-                    ahmed@shamim.com
+                    <?=$loggedinUser->email;?>
                   </div>
                 </div>
                 <button
@@ -249,7 +257,7 @@
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Howdy, Ahmed Shamim 👋
+              Howdy, <?=$loggedinUser->name;?> 👋
             </h1>
           </div>
         </header>

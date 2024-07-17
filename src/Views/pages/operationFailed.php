@@ -1,8 +1,5 @@
 <?php
-
-use App\Utils\Utility;
-
-// Utility::dd($errorMessage);
+  use App\Utils\Utility;
 ?>
 
 <!DOCTYPE html>
@@ -101,9 +98,10 @@ use App\Utils\Utility;
                         alt="Ahmed Shamim Hasan Shaon" /> -->
                       <span
                         class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
-                        <span class="font-medium leading-none text-emerald-700"
-                          >AS</span
-                        >
+                        <img
+                          class="w-10 h-10 rounded-full"
+                          src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                          alt=<?=$loggedinUser->name;?> />
                       </span>
                     </button>
                   </div>
@@ -206,23 +204,23 @@ use App\Utils\Utility;
             <div class="border-t border-emerald-700 pb-3 pt-4">
               <div class="flex items-center px-5">
                 <div class="flex-shrink-0">
-                  <!-- <img
-                    class="h-10 w-10 rounded-full"
-                    src="https://avatars.githubusercontent.com/u/831997"
-                    alt="" /> -->
-                  <span
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                    alt=<?=$loggedinUser->name;?> />
+                  <!-- <span
                     class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
                     <span class="font-medium leading-none text-emerald-700"
                       >AS</span
                     >
-                  </span>
+                  </span> -->
                 </div>
                 <div class="ml-3">
                   <div class="text-base font-medium text-white">
-                    Ahmed Shamim
+                    <?=$loggedinUser->name;?>
                   </div>
                   <div class="text-sm font-medium text-emerald-300">
-                    ahmed@shamim.com
+                    <?=$loggedinUser->email;?>
                   </div>
                 </div>
                 <button

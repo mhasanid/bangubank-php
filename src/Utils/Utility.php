@@ -30,6 +30,10 @@ class Utility
             return $message;
         }
     }
+
+    public static function convertToSha256($data) {
+        return hash('sha256', $data);
+    }
 }
 
 

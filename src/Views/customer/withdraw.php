@@ -1,3 +1,7 @@
+<?php
+  use App\Utils\Utility;
+?>
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -94,9 +98,10 @@
                         alt="Ahmed Shamim Hasan Shaon" /> -->
                       <span
                         class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
-                        <span class="font-medium leading-none text-emerald-700"
-                          >AS</span
-                        >
+                        <img
+                          class="w-10 h-10 rounded-full"
+                          src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                          alt=<?=$loggedinUser->name;?> />
                       </span>
                     </button>
                   </div>
@@ -205,17 +210,18 @@
                     alt="" /> -->
                   <span
                     class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-emerald-100">
-                    <span class="font-medium leading-none text-emerald-700"
-                      >AS</span
-                    >
+                    <img
+                          class="w-10 h-10 rounded-full"
+                          src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                          alt=<?=$loggedinUser->name;?> />
                   </span>
                 </div>
                 <div class="ml-3">
                   <div class="text-base font-medium text-white">
-                    Ahmed Shamim
+                    <?=$loggedinUser->name;?>
                   </div>
                   <div class="text-sm font-medium text-emerald-300">
-                    ahmed@shamim.com
+                  <?=$loggedinUser->email;?>
                   </div>
                 </div>
                 <button

@@ -18,7 +18,6 @@ class AuthController extends Controller {
     {
         $this->userRepo = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
         $this->balanceHelper = new BalanceStorage(new JsonFileProcessor(JsonFileProcessor::BALANCE_FILE_PATH));
-
     }
 
     public function showHomepage() {
@@ -28,8 +27,9 @@ class AuthController extends Controller {
     }
 
     public function showLogin() {
+        $error = Utility::flash('error');
         if(!$this->showLoggedinUserDashboard()){
-            $this->view('auth/login');
+            $this->view('auth/login',['error'=>$error]);
         }
     }
 
@@ -39,15 +39,16 @@ class AuthController extends Controller {
 
         $user = $this->userRepo->findByEmail($email);
         
-        if ($user) {
-            if($user->verifyPassword($password)){
-                $_SESSION['user'] = $user->email;              
-                $this->showLoggedinUserDashboard();
-            }
-        } else {
-            $_SESSION['user-error'] = "No User". " Error login: Please try with correct credentials. If you are not registered please register.";
+        if (!$user) {
+            Utility::flash('error','You are not registered. Please register.');
             $this->redirect('login');
         }
+        if(!$user->verifyPassword($password)){
+            Utility::flash('error','Please try with correct credentials.');
+            $this->redirect('login');
+        }
+        $_SESSION['user'] = $user->email;              
+        $this->showLoggedinUserDashboard();
     }
 
     public function showRegister() {
@@ -60,19 +61,19 @@ class AuthController extends Controller {
         $password = password_hash(Utility::sanitize($_POST['password']), PASSWORD_DEFAULT);;
 
         $user = new User($name, $email, $password);
-        if($this->userRepo->save($user)){
-            $_SESSION['user'] = $user->email;
-            $this->showLoggedinUserDashboard();
-            
-        }else{
-            $_SESSION['user-exist'] = "User Exist: Please consider loging in.";
+        if($this->userRepo->isUserExist($user)){
+            Utility::flash('error','You are already registered. Please login.');
             $this->redirect('login');
         }
-
+        if(!$this->userRepo->save($user)){
+            Utility::flash('error','Error occured! User cannot be registered.');
+            $this->redirect('login');
+        }
+        $_SESSION['user'] = $user->email;
+        $this->showLoggedinUserDashboard();
     }
 
     public function logout() {
-        // $this->redirect('login');
         session_destroy();
         $this->redirect('login');
 

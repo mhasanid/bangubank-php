@@ -1,8 +1,3 @@
-<?php
-$error_user_exist = $_SESSION['user-exist'];
-$error_user = $_SESSION['user-error'];
-
-?>
 <!DOCTYPE html>
 <html class="h-full bg-white" lang="en">
   <head>
@@ -36,9 +31,9 @@ $error_user = $_SESSION['user-error'];
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
         <div class="px-6 py-12 bg-white shadow sm:rounded-lg sm:px-12">
-          <?php if (!empty($error_user_exist)|| !empty($error_user)): ?>
-            <div class="mb-4 text-center text-green-600">
-                <?= htmlspecialchars($error_user) ?>
+          <?php if ($error): ?>
+            <div class="mb-4 text-center text-red-600">
+                <?= htmlspecialchars($error) ?>
             </div>
           <?php endif; ?>
           <form class="space-y-6" action="login" method="POST">
