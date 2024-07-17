@@ -100,7 +100,7 @@
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                      href="#"
+                      href="../logout"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       tabindex="-1"
@@ -213,7 +213,7 @@
               </div>
               <div class="mt-3 space-y-1 px-2">
                 <a
-                  href="#"
+                  href="../logout"
                   class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-sky-500 hover:bg-opacity-75"
                   >Sign out</a
                 >

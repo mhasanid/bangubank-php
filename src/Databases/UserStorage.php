@@ -4,15 +4,20 @@ namespace App\Databases;
 
 use App\Models\User;
 
-class UserRepository {
-    const USER_STORAGE_LOCATION = "../storage/users.json";
+class UserStorage {
+    // const USER_STORAGE_LOCATION = "../storage/users.json";
 
-    public function all(): array {
-        $users = file_get_contents(self::USER_STORAGE_LOCATION);
-        return json_decode($users, true) ?: [];
+    private $storage;
+
+    public function __construct(DatabaseInterface $storage) {
+        $this->storage = $storage;
     }
 
-    public function findByEmail($email): User {
+    public function all(): array {
+        return $this->storage->read();
+    }
+
+    public function findByEmail($email): ?User {
         $users = $this->all();
         foreach ($users as $userData) {
             if ($userData['email'] === $email) {
@@ -38,18 +43,21 @@ class UserRepository {
 
     public function save(User $user): bool {
         $users = $this->all();
+        if($this->isUserExist($user)){
+            return false;
+        }
+        $users[] = $user->toArray();
+        return $this->storage->write($users);
+    }
+
+    public function isUserExist(User $user):bool{
+        $users = $this->all();
 
         foreach ($users as $userData) {
             if ($userData['email'] === $user->email) {
-                return false;
+                return true;
             }
         }
-
-        $users[] = $user->toArray();
-        if (file_put_contents(self::USER_STORAGE_LOCATION, json_encode($users))) {
-            return true;
-        }
-
         return false;
     }
 }

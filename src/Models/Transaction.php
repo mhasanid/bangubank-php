@@ -2,17 +2,19 @@
 
 namespace App\Models;
 
-class Transaction {
-    public $userEmail;
-    public $othersEmail;
-    public $type;
-    public $amount;
+use DateTime;
+use DateTimeZone;
 
-    public function __construct($userEmail, $othersEmail, $type, $amount) {
-        $this->userEmail = $userEmail;
-        $this->othersEmail = $othersEmail;
-        $this->type = $type;
-        $this->amount = $amount;
+class Transaction {
+    public DateTime $dateTime;
+
+    public function __construct(
+        public string $userEmail,
+        public string $othersEmail,
+        public string $type,
+        public float $amount,
+    ) {
+        $this->dateTime = new DateTime('now', new DateTimeZone('Asia/Dhaka'));
     }
 }
 

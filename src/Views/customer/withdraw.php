@@ -111,7 +111,7 @@
                     aria-labelledby="user-menu-button"
                     tabindex="-1">
                     <a
-                      href="#"
+                      href="../logout"
                       class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
                       tabindex="-1"
@@ -172,26 +172,26 @@
             id="mobile-menu">
             <div class="space-y-1 pt-2 pb-3">
               <a
-                href="./dashboard.html"
+                href="transactions"
                 class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 aria-current="page"
                 >Dashboard</a
               >
 
               <a
-                href="./deposit.html"
+                href="deposit"
                 class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Deposit</a
               >
 
               <a
-                href="./withdraw.html"
+                href="withdraw"
                 class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
                 >Withdraw</a
               >
 
               <a
-                href="./transfer.html"
+                href="transfer"
                 class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Transfer</a
               >
@@ -238,7 +238,7 @@
               </div>
               <div class="mt-3 space-y-1 px-2">
                 <a
-                  href="#"
+                  href="../logout"
                   class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-emerald-500 hover:bg-opacity-75"
                   >Sign out</a
                 >

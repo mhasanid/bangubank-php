@@ -1,3 +1,10 @@
+<?php
+
+use App\Utils\Utility;
+
+// Utility::dd($errorMessage);
+?>
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -35,7 +42,7 @@
       }
     </style>
 
-    <title>Deposit Balance</title>
+    <title>Transfer Balance</title>
   </head>
   <body class="h-full">
     <div class="min-h-full">
@@ -58,7 +65,7 @@
                     >
                     <a
                       href="deposit"
-                      class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
+                      class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Deposit</a
                     >
                     <a
@@ -67,8 +74,8 @@
                       >Withdraw</a
                     >
                     <a
-                      href="./transfer.html"
-                      class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
+                      href="transfer"
+                      class="bg-emerald-700 text-white rounded-md py-2 px-3 text-sm font-medium"
                       >Transfer</a
                     >
                   </div>
@@ -180,7 +187,7 @@
 
               <a
                 href="deposit"
-                class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
+                class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Deposit</a
               >
 
@@ -192,7 +199,7 @@
 
               <a
                 href="transfer"
-                class="text-white hover:bg-emerald-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
+                class="bg-emerald-700 text-white block rounded-md py-2 px-3 text-base font-medium"
                 >Transfer</a
               >
             </div>
@@ -249,7 +256,7 @@
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Deposit Balance
+              Problem Occured!
             </h1>
           </div>
         </header>
@@ -274,40 +281,38 @@
             </dl>
 
             <hr />
-            <!-- Deposit Form -->
+            <!-- Transfer Form -->
             <div class="sm:rounded-lg">
               <div class="px-4 py-5 sm:p-6">
-                <h3 class="text-lg font-semibold leading-6 text-gray-800">
-                  Deposit Money To Your Account
-                </h3>
                 <div class="mt-4 text-sm text-gray-500">
-                  <form
-                    action="#"
-                    method="POST">
-                    <!-- Input Field -->
-                    <div class="relative mt-2 rounded-md">
-                      <div
-                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-0">
-                        <span class="text-gray-400 sm:text-4xl">$</span>
-                      </div>
-                      <input
-                        type="number"
-                        name="amount"
-                        id="amount"
-                        class="block w-full ring-0 outline-none text-xl pl-4 py-2 sm:pl-8 text-gray-800 border-b border-b-emerald-500 placeholder:text-gray-400 sm:text-4xl"
-                        placeholder="0.00"
-                        required />
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div class="mt-5">
+                    <p class="block w-full ring-0 outline-none py-2 text-gray-800 border-b placeholder:text-gray-400 md:text-4xl">
+                      <?php if($errorMessage): ?>
+                        <?= $errorMessage; ?>
+                      <?php else: ?>
+                        <a href='transactions'>
                       <button
                         type="submit"
-                        class="w-full px-6 py-3.5 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 rounded-lg sm:text-xl text-center">
-                        Proceed
-                      </button>
-                    </div>
-                  </form>
+                        class="w-full px-6 py-3.5 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 rounded-lg md:text-xl text-center">
+                          Dashboard
+                        </button>
+                      </a>
+                      <?php endif; ?>
+                        
+                    </p>
+
+                    <?php if($route): ?>
+                      <div class="mt-5">
+                        <a 
+                          href=<?= $route?>
+                        >
+                        <button
+                          type="submit"
+                          class="w-full px-6 py-3.5 text-base font-medium text-white bg-emerald-600 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 rounded-lg md:text-xl text-center">
+                            Try Again
+                          </button>
+                        </a>
+                      </div>
+                    <?php endif; ?>
                 </div>
               </div>
             </div>

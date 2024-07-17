@@ -5,15 +5,15 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Databases\JsonFileProcessor;
 use App\Databases\TransactionStorage;
-use App\Databases\UserRepository;
+use App\Databases\UserStorage;
 
 class AdminController extends Controller {
-    private UserRepository $userAgent;
+    private UserStorage $userAgent;
     private TransactionStorage $transactionHelper;
 
     public function __construct()
     {
-        $this->userAgent = new UserRepository();
+        $this->userAgent = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
         $this->transactionHelper = new TransactionStorage(new JsonFileProcessor(JsonFileProcessor::TRANSACTION_FILE_PATH));
     }
 

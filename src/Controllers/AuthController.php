@@ -6,17 +6,17 @@ use App\Core\Controller;
 use App\Databases\BalanceStorage;
 use App\Databases\JsonFileProcessor;
 use App\Models\User;
-use App\Databases\UserRepository;
+use App\Databases\UserStorage;
 use App\Models\Balance;
 use App\Utils\Utility;
 
 class AuthController extends Controller {
-    private UserRepository $userRepo;
+    private UserStorage $userRepo;
     private BalanceStorage $balanceHelper;
 
     public function __construct()
     {
-        $this->userRepo = new UserRepository();
+        $this->userRepo = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
         $this->balanceHelper = new BalanceStorage(new JsonFileProcessor(JsonFileProcessor::BALANCE_FILE_PATH));
 
     }
@@ -80,8 +80,10 @@ class AuthController extends Controller {
 
     private function showLoggedinUserDashboard():bool{
         $user_email = $_SESSION['user'] ?: null;
-        if($user_email){
-            $user = $this->userRepo->findByEmail($user_email);
+        if(!$user_email){
+            return false;
+        }
+        $user = $this->userRepo->findByEmail($user_email);
             if($user->role===User::CUSTOMER_USER){
                 $userBalance = $this->balanceHelper->getBalanceByEmail($user->email);
                 if(!$userBalance){
@@ -92,7 +94,5 @@ class AuthController extends Controller {
                 $this->redirect('admin/customers');
             }
             return true;
-        }
-        return false;
     }
 }

@@ -6,23 +6,33 @@ use App\Core\Controller;
 use App\Databases\BalanceStorage;
 use App\Databases\JsonFileProcessor;
 use App\Databases\TransactionStorage;
+use App\Databases\UserStorage;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Utils\Utility;
 
 class CustomerController extends Controller {
     
     private TransactionStorage $transactionHelper;
     private BalanceStorage $balanceHelper;
+    private UserStorage $userHelper;
 
     public function __construct()
     {
         $this->transactionHelper = new TransactionStorage(new JsonFileProcessor(JsonFileProcessor::TRANSACTION_FILE_PATH));
         $this->balanceHelper = new BalanceStorage(new JsonFileProcessor(JsonFileProcessor::BALANCE_FILE_PATH));
+        $this->userHelper = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
     }
 
     public function transactions() {
+        $transactions = [];
         $email = $_SESSION['user'];
-        $transactions = $this->transactionHelper->findByEmail($email);
+        $userTransactions = $this->transactionHelper->findByEmail($email);
+        foreach($userTransactions as $transaction){
+            $userName = $this->userHelper->findByEmail($transaction['othersEmail'])->name;
+            $transaction['name']= $userName;
+            $transactions[]=$transaction;
+        }
         $balance = $this->balanceHelper->getBalanceByEmail($email);
         $this->view('customer/transactions', ['transactions' => $transactions, 'balance'=>$balance]);
     }
@@ -39,8 +49,12 @@ class CustomerController extends Controller {
 
     public function deposit() {
         $email = $_SESSION['user'];
-        $amount = $_POST['amount'];
-
+        $amount = (float)$_POST['amount'];
+        if($amount<=0){
+            Utility::flash('route','deposit');
+            Utility::flash('operation-error','Diposit amount cannot be negative or zero.');
+            $this->redirect('customer/operation-failed');
+        }
         $transaction = new Transaction($email, $email, 'deposit', $amount);
         $this->transactionHelper->save($transaction);
         $this->balanceHelper->depositBalance($email, $amount);
@@ -60,12 +74,20 @@ class CustomerController extends Controller {
         }
     }
 
-    // TODO: balance check for withdraw: cannot be withdrawn if the balance is zero 
-
     public function withdraw() {
         $email = $_SESSION['user'];
-        $amount = $_POST['amount'];
-
+        $amount = (float)$_POST['amount'];
+        $balance = (float)$this->balanceHelper->getBalanceByEmail($email)->getBalance();
+        if($amount<=0){
+            Utility::flash('route','withdraw');
+            Utility::flash('operation-error','Withdrawal amount cannot be negative or zero.');
+            $this->redirect('customer/operation-failed');
+        }
+        if($balance<$amount){
+            Utility::flash('route','withdraw');
+            Utility::flash('operation-error','Insufficient Balance!');
+            $this->redirect('customer/operation-failed');
+        }
         $transaction = new Transaction($email, $email, 'withdraw', $amount);
         $this->transactionHelper->save($transaction);
         $this->balanceHelper->withdrawBalance($email, $amount);
@@ -73,7 +95,6 @@ class CustomerController extends Controller {
         $this->redirect('customer/transactions');
 
     }
-
 
     public function showTransfer(){
         $email = $_SESSION['user'];
@@ -85,18 +106,50 @@ class CustomerController extends Controller {
         }
     }
 
-    // TODO: Input validation: 
-    // 1. if the user enter his own email into transfer email
-    // 2. if the other user doesnot exist.
-
-    // TODO: balance check for transfer: cannot be transferred if the balance is zero 
-    // 
+    public function operationFailed(){
+        $email = $_SESSION['user'];
+        $balance = $this->balanceHelper->getBalanceByEmail($email);
+        $errorMessage = Utility::flash('operation-error');
+        $route = Utility::flash('route');
+        if($email){
+            $this->view('pages/operationFailed', ['balance'=>$balance, 'errorMessage'=>$errorMessage, 'route'=>$route]);
+        }else{
+            $this->redirect('login');
+        }
+    }
 
     public function transfer() {
         $email = $_SESSION['user'];
         $recipientEmail = $_POST['email'];
-        $amount = $_POST['amount'];
+        $amount = (float)$_POST['amount'];
+        $recipientUser = $this->userHelper->findByEmail($recipientEmail);
+        $balance = (float)$this->balanceHelper->getBalanceByEmail($email)->getBalance();
 
+        if(!$recipientUser){
+            Utility::flash('route','transfer');
+            Utility::flash('operation-error','No recipient found!');
+            $this->redirect('customer/operation-failed');
+        }
+        if($recipientUser->email===$email){
+            Utility::flash('route','transfer');
+            Utility::flash('operation-error','Please enter the recipient email not yours.');
+            $this->redirect('customer/operation-failed');
+        }
+        if($recipientUser->role==='admin'){
+            Utility::flash('route','transfer');
+            Utility::flash('operation-error','Please enter a customer email.');
+            $this->redirect('customer/operation-failed');
+        }
+        if($amount<=0){
+            Utility::flash('route','transfer');
+            Utility::flash('operation-error','Withdrawal amount cannot be negative or zero.');
+            $this->redirect('customer/operation-failed');
+        }
+        if($balance<$amount){
+            Utility::flash('route','transfer');
+            Utility::flash('operation-error','Insufficient Balance!');
+            $this->redirect('customer/operation-failed');
+        }
         $transaction = new Transaction($email, $recipientEmail, 'withdraw', $amount);
         $this->transactionHelper->save($transaction);
         $this->balanceHelper->withdrawBalance($email, $amount);
@@ -106,22 +159,8 @@ class CustomerController extends Controller {
         $this->balanceHelper->depositBalance($recipientEmail, $amount);
 
         $this->redirect('customer/transactions');
+        
 
     }
 
-    // public function balance() {
-    //     $email = $_SESSION['user'];
-    //     $transactions = $this->transactionHelper->findByEmail($email);
-    //     $balance = 0;
-
-    //     foreach ($transactions as $transaction) {
-    //         if ($transaction['type'] === 'deposit' || $transaction['type'] === 'transfer') {
-    //             $balance += $transaction['amount'];
-    //         } else if ($transaction['type'] === 'withdraw') {
-    //             $balance -= $transaction['amount'];
-    //         }
-    //     }
-
-    //     $this->view('customer/balance', ['balance' => $balance]);
-    // }
 }

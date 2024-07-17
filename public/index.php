@@ -27,6 +27,7 @@ $router->add('customer/withdraw', 'GET', [CustomerController::class, 'showWithdr
 $router->add('customer/withdraw', 'POST', [CustomerController::class, 'withdraw']);
 $router->add('customer/transfer', 'GET', [CustomerController::class, 'showTransfer']);
 $router->add('customer/transfer', 'POST', [CustomerController::class, 'transfer']);
+$router->add('customer/operation-failed', 'GET', [CustomerController::class, 'operationFailed']);
 // $router->add('customer/balance', 'GET', [CustomerController::class, 'balance']);
 
 // Admin routes

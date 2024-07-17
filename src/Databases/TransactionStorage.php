@@ -20,7 +20,8 @@ class TransactionStorage {
             'userEmail' => $transaction->userEmail,
             'othersEmail' => $transaction->othersEmail,
             'type' => $transaction->type,
-            'amount' => $transaction->amount
+            'amount' => $transaction->amount,
+            'dateTime'=>$transaction->dateTime
         ];
         return $this->storage->write($transactions);
     }
@@ -28,7 +29,7 @@ class TransactionStorage {
     public function findByEmail($email) {
         $transactions = $this->all();
         return array_filter($transactions, function ($transaction) use ($email) {
-            return $transaction['userEmail'] === $email || $transaction['othersEmail'] === $email;
+            return $transaction['userEmail'] === $email && $transaction['othersEmail'] !== $email;
         });
     }
 }
