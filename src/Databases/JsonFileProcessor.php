@@ -5,12 +5,10 @@ class JsonFileProcessor implements DatabaseInterface {
     const TRANSACTION_FILE_PATH = "../storage/transaction.json";
     const BALANCE_FILE_PATH = "../storage/balance.json";
     const USER_FILE_PATH = "../storage/users.json";
-    // private $filePath;
 
     public function __construct(
         private string $filePath
         ) {
-        // $this->filePath = $filePath;
     }
 
     public function read() {

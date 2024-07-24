@@ -28,11 +28,12 @@ $router->add('customer/withdraw', 'POST', [CustomerController::class, 'withdraw'
 $router->add('customer/transfer', 'GET', [CustomerController::class, 'showTransfer']);
 $router->add('customer/transfer', 'POST', [CustomerController::class, 'transfer']);
 $router->add('customer/operation-failed', 'GET', [CustomerController::class, 'operationFailed']);
-// $router->add('customer/balance', 'GET', [CustomerController::class, 'balance']);
 
 // Admin routes
-$router->add('admin/transactions', 'GET', [AdminController::class, 'transactions']);
-$router->add('admin/search-transactions', 'POST', [AdminController::class, 'searchTransactions']);
-$router->add('admin/customers', 'GET', [AdminController::class, 'customers']);
+$router->add('admin/customers', 'GET', [AdminController::class, 'showCustomers']);
+$router->add('admin/add-customer', 'GET', [AdminController::class, 'showAddCustomer']);
+$router->add('admin/add-customer', 'POST', [AdminController::class, 'addCustomer']);
+$router->add('admin/transactions', 'GET', [AdminController::class, 'showTransactions']);
+$router->add('admin/transactions/{id}', 'GET', [AdminController::class, 'showUserTransactions']);
 
 $router->dispatch();

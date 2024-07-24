@@ -5,7 +5,6 @@ namespace App\Databases;
 use App\Models\User;
 
 class UserStorage {
-    // const USER_STORAGE_LOCATION = "../storage/users.json";
 
     private $storage;
 
@@ -27,16 +26,29 @@ class UserStorage {
         return null;
     }
 
+    public function findById($id): ?User {
+        $users = $this->all();
+        foreach ($users as $userData) {
+            if ($userData['id'] == $id) {
+                $user = new User($userData['name'], $userData['email'], $userData['password'], $userData['role']);
+                $user->setId($userData['id']);
+                return $user;
+            }
+        }
+        return null;
+    }
+
     public function findAllByRole($role): array {
         $users = $this->all();
         $usersByRole = [];
         
         foreach ($users as $userData) {
             if ($userData['role'] === $role) {
-                $usersByRole[] = new User($userData['name'], $userData['email'], $userData['password'], $userData['role']);
+                $user = new User($userData['name'], $userData['email'], $userData['password'], $userData['role']);
+                $user->setId($userData['id']);
+                $usersByRole[] = $user;
             }
         }
-        
         return $usersByRole;
     }
     
@@ -46,6 +58,7 @@ class UserStorage {
         if($this->isUserExist($user)){
             return false;
         }
+        $user->setId($this->setIdIncrement($users));
         $users[] = $user->toArray();
         return $this->storage->write($users);
     }
@@ -59,5 +72,14 @@ class UserStorage {
             }
         }
         return false;
+    }
+
+    private function setIdIncrement(array $users):int{
+        if(empty($users)){
+            return 1;
+        }
+        $lastId = (int)$users[count($users)-1]['id'];
+        return $lastId+1;
+        
     }
 }

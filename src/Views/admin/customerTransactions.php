@@ -1,3 +1,8 @@
+<?php
+  use App\Utils\Utility;
+
+?>
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -51,12 +56,12 @@
                   <div class="flex space-x-4">
                     <!-- Current: "bg-sky-700 text-white", Default: "text-white hover:bg-sky-500 hover:bg-opacity-75" -->
                     <a
-                      href="./customers.html"
+                      href="../customers"
                       class="text-white hover:bg-sky-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Customers</a
                     >
                     <a
-                      href="./transactions.html"
+                      href="../transactions"
                       class="text-white hover:bg-sky-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Transactions</a
                     >
@@ -77,15 +82,15 @@
                       aria-expanded="false"
                       aria-haspopup="true">
                       <span class="sr-only">Open user menu</span>
-                      <!-- <img
-                        class="h-10 w-10 rounded-full"
-                        src="https://avatars.githubusercontent.com/u/831997"
-                        alt="Ahmed Shamim Hasan Shaon" /> -->
-                      <span
+                      <img
+                        class="w-10 h-10 rounded-full"
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
+                      <!-- <span
                         class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-100">
                         <span class="font-medium leading-none text-sky-700"
                           >AS</span
-                        >
+                        > -->
                       </span>
                     </button>
                   </div>
@@ -161,12 +166,12 @@
             id="mobile-menu">
             <div class="space-y-1 pt-2 pb-3">
               <a
-                href="./customers.html"
+                href="../customers"
                 class="text-white hover:bg-sky-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Customers</a
               >
               <a
-                href="./transactions.html"
+                href="../transactions"
                 class="text-white hover:bg-sky-500 hover:bg-opacity-75 block rounded-md py-2 px-3 text-base font-medium"
                 >Transactions</a
               >
@@ -174,23 +179,23 @@
             <div class="border-t border-sky-700 pb-3 pt-4">
               <div class="flex items-center px-5">
                 <div class="flex-shrink-0">
-                  <!-- <img
-                    class="h-10 w-10 rounded-full"
-                    src="https://avatars.githubusercontent.com/u/831997"
-                    alt="Ahmed Shamim Hasan Shaon" /> -->
-                  <span
+                  <img
+                    class="w-10 h-10 rounded-full"
+                    src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                    alt=<?=$loggedinUser->name;?> />
+                  <!-- <span
                     class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-sky-100">
                     <span class="font-medium leading-none text-sky-700"
                       >AS</span
-                    >
+                    > -->
                   </span>
                 </div>
                 <div class="ml-3">
                   <div class="text-base font-medium text-white">
-                    Ahmed Shamim Hasan Shaon
+                    <?= $loggedinUser->name ?>
                   </div>
                   <div class="text-sm font-medium text-sky-300">
-                    ahmed@shamim.com
+                    <?= $loggedinUser->email ?>
                   </div>
                 </div>
                 <button
@@ -224,7 +229,7 @@
         <header class="py-10">
           <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <h1 class="text-3xl font-bold tracking-tight text-white">
-              Transactions of Al Nahian
+              Transactions of <?= $customerUser->name ?> 
             </h1>
           </div>
         </header>
@@ -238,137 +243,76 @@
               <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                   <p class="mt-2 text-sm text-gray-700">
-                    List of transactions made by Al Nahian.
+                    List of transactions made by <?= $customerUser->name ?>.
                   </p>
                 </div>
               </div>
-              <div class="mt-8 flow-root">
-                <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                  <div
-                    class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                    <table class="min-w-full divide-y divide-gray-300">
-                      <thead>
-                        <tr>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                            Receiver Name
-                          </th>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
-                            Email
-                          </th>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Amount
-                          </th>
-                          <th
-                            scope="col"
-                            class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
-                            Date
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody class="divide-y divide-gray-200 bg-white">
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Bruce Wayne
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            bruce@wayne.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
-                            +$10,240
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            29 Sep 2023, 09:25 AM
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Al Nahian
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            alnahian@2003.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-red-600">
-                            -$2,500
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            15 Sep 2023, 06:14 PM
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Muhammad Alp Arslan
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            alp@arslan.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
-                            +$49,556
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            03 Jul 2023, 12:55 AM
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Povilas Korop
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            povilas@korop.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
-                            +$6,125
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            07 Jun 2023, 10:00 PM
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
-                            Martin Joo
-                          </td>
-                          <td
-                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                            martin@joo.com
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm font-medium text-red-600">
-                            -$125
-                          </td>
-                          <td
-                            class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
-                            02 Feb 2023, 8:30 PM
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <?php if (!empty($transactions)): ?>
+                <div class="mt-8 flow-root">
+                  <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div
+                      class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                      <table class="min-w-full divide-y divide-gray-300">
+                        <thead>
+                          <tr>
+                            <th
+                              scope="col"
+                              class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                              Receiver Name
+                            </th>
+                            <th
+                              scope="col"
+                              class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">
+                              Email
+                            </th>
+                            <th
+                              scope="col"
+                              class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                              Amount
+                            </th>
+                            <th
+                              scope="col"
+                              class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                              Date
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 bg-white">
+                          <?php foreach ($transactions as $transaction): ?>
+                            <tr>
+                              <td
+                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-800 sm:pl-0">
+                                <?= htmlspecialchars($transaction['receiver-name']) ?>
+                              </td>
+                              <td
+                                class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
+                                <?= htmlspecialchars($transaction['othersEmail']) ?>
+                              </td>
+                              <?php if(htmlspecialchars($transaction['type'])==="withdraw"):?>
+                                <td
+                                  class="whitespace-nowrap px-2 py-4 text-sm font-medium text-red-600">
+                                    -$<?= number_format(htmlspecialchars($transaction['amount']),2,'.',',') ?>
+                                </td>
+                                <?php else: ?>
+                                <td
+                                  class="whitespace-nowrap px-2 py-4 text-sm font-medium text-emerald-600">
+                                  +$<?= number_format(htmlspecialchars($transaction['amount']),2,'.',',') ?>
+                                </td>
+                              <?php endif; ?>
+                              <td
+                                class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
+                                <?= htmlspecialchars((new DateTime($transaction['dateTime']['date']))->format('d M Y, h:i A')) ?>
+                              </td>
+                            </tr>
+                          <?php endforeach; ?>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
+              <?php else: ?>
+                <p class="whitespace-nowrap py-4 pl-4 pr-3 text-xl text-red-500 sm:pl-0">No Transactions found.</p>
+              <?php endif; ?>
             </div>
           </div>
         </div>

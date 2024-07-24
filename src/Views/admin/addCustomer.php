@@ -1,3 +1,7 @@
+<?php
+  use App\Utils\Utility;
+?>
+
 <!DOCTYPE html>
 <html
   class="h-full bg-gray-100"
@@ -51,12 +55,12 @@
                   <div class="flex space-x-4">
                     <!-- Current: "bg-sky-700 text-white", Default: "text-white hover:bg-sky-500 hover:bg-opacity-75" -->
                     <a
-                      href="./customers.html"
+                      href="customers"
                       class="px-3 py-2 text-sm font-medium text-white rounded-md bg-sky-700"
                       >Customers</a
                     >
                     <a
-                      href="./transactions.html"
+                      href="transactions"
                       class="px-3 py-2 text-sm font-medium text-white rounded-md hover:bg-sky-500 hover:bg-opacity-75"
                       >Transactions</a
                     >
@@ -77,16 +81,16 @@
                       aria-expanded="false"
                       aria-haspopup="true">
                       <span class="sr-only">Open user menu</span>
-                      <span
+                      <!-- <span
                         class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-sky-100">
                         <span class="font-medium leading-none text-sky-700"
                           >AS</span
                         >
-                      </span>
-                      <!-- <img
+                      </span> -->
+                      <img
                         class="w-10 h-10 rounded-full"
-                        src="https://avatars.githubusercontent.com/u/831997"
-                        alt="Ahmed Shamim Hasan Shaon" /> -->
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
                     </button>
                   </div>
 
@@ -161,12 +165,12 @@
             id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
               <a
-                href="./customers.html"
+                href="customers"
                 class="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-sky-500 hover:bg-opacity-75"
                 >Customers</a
               >
               <a
-                href="./transactions.html"
+                href="transactions"
                 class="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-sky-500 hover:bg-opacity-75"
                 >Transactions</a
               >
@@ -180,17 +184,18 @@
                     alt="" /> -->
                   <span
                     class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-sky-100">
-                    <span class="font-medium leading-none text-sky-700"
-                      >AS</span
-                    >
+                    <img
+                        class="w-10 h-10 rounded-full"
+                        src=<?="https://www.gravatar.com/avatar/" . Utility::convertToSha256($loggedinUser->email);?>
+                        alt=<?=$loggedinUser->name;?> />
                   </span>
                 </div>
                 <div class="ml-3">
                   <div class="text-base font-medium text-white">
-                    Ahmed Shamim Hasan Shaon
+                    <?=$loggedinUser->name;?>
                   </div>
                   <div class="text-sm font-medium text-sky-300">
-                    ahmed@shamim.com
+                    <?=$loggedinUser->email;?>
                   </div>
                 </div>
                 <button
@@ -235,8 +240,15 @@
         <div class="px-4 pb-12 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div class="bg-white rounded-lg">
             <form
-              class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2">
+              class="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl md:col-span-2"
+              action="add-customer"
+              method="POST">
               <div class="px-4 py-6 sm:p-8">
+                <?php if ($error): ?>
+                  <div class="mb-4 text-center text-red-600">
+                      <?= htmlspecialchars($error) ?>
+                  </div>
+                <?php endif; ?>
                 <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                   <div class="sm:col-span-3">
                     <label
@@ -309,11 +321,11 @@
               </div>
               <div
                 class="flex items-center justify-end px-4 py-4 border-t gap-x-6 border-gray-900/10 sm:px-8">
-                <button
-                  type="reset"
-                  class="text-sm font-semibold leading-6 text-gray-900">
-                  Cancel
-                </button>
+                <a href="customers"
+                    class="text-sm font-semibold leading-6 text-gray-900">
+                    Cancel
+                  <!-- </button> -->
+                </a>
                 <button
                   type="submit"
                   class="px-3 py-2 text-sm font-semibold text-white rounded-md shadow-sm bg-sky-600 hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600">

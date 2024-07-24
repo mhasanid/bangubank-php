@@ -71,7 +71,7 @@
                       >Withdraw</a
                     >
                     <a
-                      href="./transfer.html"
+                      href="transfer"
                       class="text-white hover:bg-emerald-500 hover:bg-opacity-75 rounded-md py-2 px-3 text-sm font-medium"
                       >Transfer</a
                     >

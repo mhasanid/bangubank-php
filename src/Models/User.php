@@ -5,6 +5,7 @@ namespace App\Models;
 class User {
     const ADMIN_USER = "admin";
     const CUSTOMER_USER = "customer";
+    public int $id;
     
     public function __construct(
         public string $name,
@@ -12,7 +13,11 @@ class User {
         private string $password,
         public string $role = self::CUSTOMER_USER
     ) {
-        // $this->password = password_hash($password, PASSWORD_DEFAULT);
+
+    }
+
+    public function setId(int $id){
+        $this->id = $id;
     }
 
     
@@ -22,6 +27,7 @@ class User {
 
     public function toArray(): array {
         return [
+            'id'=> $this->id,
             'name' => $this->name,
             'email' => $this->email,
             'password' => $this->password,

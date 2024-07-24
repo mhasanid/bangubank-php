@@ -11,12 +11,12 @@ use App\Models\Balance;
 use App\Utils\Utility;
 
 class AuthController extends Controller {
-    private UserStorage $userRepo;
+    private UserStorage $userHelper;
     private BalanceStorage $balanceHelper;
 
     public function __construct()
     {
-        $this->userRepo = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
+        $this->userHelper = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
         $this->balanceHelper = new BalanceStorage(new JsonFileProcessor(JsonFileProcessor::BALANCE_FILE_PATH));
     }
 
@@ -34,10 +34,10 @@ class AuthController extends Controller {
     }
 
     public function login() {
-        $email = $_POST['email'];
+        $email = Utility::sanitize($_POST['email']);
         $password = Utility::sanitize($_POST['password']);
 
-        $user = $this->userRepo->findByEmail($email);
+        $user = $this->userHelper->findByEmail($email);
         
         if (!$user) {
             Utility::flash('error','You are not registered. Please register.');
@@ -52,22 +52,42 @@ class AuthController extends Controller {
     }
 
     public function showRegister() {
-        $this->view('auth/register');
+        $error = Utility::flash('error');
+        if(!$this->showLoggedinUserDashboard()){
+            $this->view('auth/register', ['error'=>$error]);
+        }
     }
 
     public function register() {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
+        $name = Utility::sanitize($_POST['name']);
+        $email = Utility::sanitize($_POST['email']);
+        
+        if(strlen(Utility::sanitize($_POST['password']))<8){
+            Utility::flash('error','Password must be at least 8 character.');
+            $this->redirect('register');
+        }
+
         $password = password_hash(Utility::sanitize($_POST['password']), PASSWORD_DEFAULT);;
+        
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+            Utility::flash('error','Please insert a valid email address.');
+            $this->redirect('register');
+        }
+
+        if(!$name){
+            Utility::flash('error','Customer name required.');
+            $this->redirect('register');
+        }
 
         $user = new User($name, $email, $password);
-        if($this->userRepo->isUserExist($user)){
+
+        if($this->userHelper->isUserExist($user)){
             Utility::flash('error','You are already registered. Please login.');
             $this->redirect('login');
         }
-        if(!$this->userRepo->save($user)){
+        if(!$this->userHelper->save($user)){
             Utility::flash('error','Error occured! User cannot be registered.');
-            $this->redirect('login');
+            $this->redirect('register');
         }
         $_SESSION['user'] = $user->email;
         $this->showLoggedinUserDashboard();
@@ -84,16 +104,20 @@ class AuthController extends Controller {
         if(!$user_email){
             return false;
         }
-        $user = $this->userRepo->findByEmail($user_email);
-            if($user->role===User::CUSTOMER_USER){
-                $userBalance = $this->balanceHelper->getBalanceByEmail($user->email);
-                if(!$userBalance){
-                    $this->balanceHelper->save(new Balance($user->email));
-                }
-                $this->redirect('customer/transactions');
-            }elseif ($user->role===User::ADMIN_USER){
-                $this->redirect('admin/customers');
+        $user = $this->userHelper->findByEmail($user_email);
+        if(!$user){
+            return false;
+        }
+        if($user->role===User::CUSTOMER_USER){
+            $userBalance = $this->balanceHelper->getBalanceByEmail($user->email);
+            if(!$userBalance){
+                $this->balanceHelper->save(new Balance($user->email));
             }
+            $this->redirect('customer/transactions');
             return true;
+        }elseif ($user->role===User::ADMIN_USER){
+            $this->redirect('admin/customers');
+            return true;
+        }
     }
 }

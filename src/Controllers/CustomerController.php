@@ -35,6 +35,9 @@ class CustomerController extends Controller {
             $transactions[]=$transaction;
         }
         $balance = $this->balanceHelper->getBalanceByEmail($email);
+        if(!$loggedinUser){
+            $this->redirect('login');
+        }
         $this->view('customer/transactions', ['loggedinUser' => $loggedinUser,'transactions' => $transactions, 'balance'=>$balance]);
     }
 
@@ -42,11 +45,10 @@ class CustomerController extends Controller {
         $email = $_SESSION['user'];
         $loggedinUser = $this->userHelper->findByEmail($email);
         $balance = $this->balanceHelper->getBalanceByEmail($email);
-        if($email){
-            $this->view('customer/deposit', ['loggedinUser' => $loggedinUser,'balance'=>$balance]);
-        }else{
+        if(!$loggedinUser){
             $this->redirect('login');
         }
+        $this->view('customer/deposit', ['loggedinUser' => $loggedinUser,'balance'=>$balance]);
     }
 
     public function deposit() {
@@ -70,11 +72,10 @@ class CustomerController extends Controller {
         $email = $_SESSION['user'];
         $loggedinUser = $this->userHelper->findByEmail($email);
         $balance = $this->balanceHelper->getBalanceByEmail($email);
-        if($email){
-            $this->view('customer/withdraw', ['loggedinUser' => $loggedinUser,'balance'=>$balance]);
-        }else{
+        if(!$loggedinUser){
             $this->redirect('login');
         }
+        $this->view('customer/withdraw', ['loggedinUser' => $loggedinUser,'balance'=>$balance]);
     }
 
     public function withdraw() {
@@ -103,11 +104,10 @@ class CustomerController extends Controller {
         $email = $_SESSION['user'];
         $loggedinUser = $this->userHelper->findByEmail($email);
         $balance = $this->balanceHelper->getBalanceByEmail($email);
-        if($email){
-            $this->view('customer/transfer', ['loggedinUser' => $loggedinUser,'balance'=>$balance]);
-        }else{
+        if(!$loggedinUser){
             $this->redirect('login');
         }
+        $this->view('customer/transfer', ['loggedinUser' => $loggedinUser,'balance'=>$balance]);
     }
 
     public function operationFailed(){
@@ -116,11 +116,10 @@ class CustomerController extends Controller {
         $balance = $this->balanceHelper->getBalanceByEmail($email);
         $errorMessage = Utility::flash('operation-error');
         $route = Utility::flash('route');
-        if($email){
-            $this->view('pages/operationFailed', ['loggedinUser' => $loggedinUser,'balance'=>$balance, 'errorMessage'=>$errorMessage, 'route'=>$route]);
-        }else{
+        if(!$loggedinUser){
             $this->redirect('login');
         }
+        $this->view('pages/operationFailed', ['loggedinUser' => $loggedinUser,'balance'=>$balance, 'errorMessage'=>$errorMessage, 'route'=>$route]);
     }
 
     public function transfer() {
