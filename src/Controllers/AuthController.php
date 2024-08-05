@@ -4,7 +4,8 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Databases\BalanceStorage;
-use App\Databases\JsonFileProcessor;
+use App\Databases\FileProcessorBalance;
+use App\Databases\FileProcessorUser;
 use App\Models\User;
 use App\Databases\UserStorage;
 use App\Models\Balance;
@@ -16,8 +17,8 @@ class AuthController extends Controller {
 
     public function __construct()
     {
-        $this->userHelper = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
-        $this->balanceHelper = new BalanceStorage(new JsonFileProcessor(JsonFileProcessor::BALANCE_FILE_PATH));
+        $this->userHelper = new UserStorage(new FileProcessorUser());
+        $this->balanceHelper = new BalanceStorage(new FileProcessorBalance());
     }
 
     public function showHomepage() {

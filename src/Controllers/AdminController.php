@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Databases\BalanceStorage;
-use App\Databases\JsonFileProcessor;
+use App\Databases\FileProcessorBalance;
+use App\Databases\FileProcessorTransaction;
+use App\Databases\FileProcessorUser;
 use App\Databases\TransactionStorage;
 use App\Databases\UserStorage;
 use App\Models\Balance;
@@ -18,9 +20,9 @@ class AdminController extends Controller {
 
     public function __construct()
     {
-        $this->userHelper = new UserStorage(new JsonFileProcessor(JsonFileProcessor::USER_FILE_PATH));
-        $this->transactionHelper = new TransactionStorage(new JsonFileProcessor(JsonFileProcessor::TRANSACTION_FILE_PATH));
-        $this->balanceHelper = new BalanceStorage(new JsonFileProcessor(JsonFileProcessor::BALANCE_FILE_PATH));
+        $this->userHelper = new UserStorage(new FileProcessorUser());
+        $this->transactionHelper = new TransactionStorage(new FileProcessorTransaction());
+        $this->balanceHelper = new BalanceStorage(new FileProcessorBalance());
     }
 
     public function showTransactions() {
